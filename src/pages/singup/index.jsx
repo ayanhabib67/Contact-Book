@@ -12,30 +12,68 @@ let  SignupPage = ()=> {
  
 let [singUpEmail , setSingUpEmail] = useState("")
 let [singUpPassword , setsingUpPassword] = useState("")
+let [singUpConfotmPassword , setSingUpConfotmPassword] = useState("")
+let [showPassword, setShowPassword] = useState("");
+let [showConformPassword, setShowConformPassword] = useState("");
+
+let [inputType, setInputType] = useState("password"); 
+
 
 
 const navigate = useNavigate();
 
 
+let  checkPasswssword = ()=>{
+  console.log(showConformPassword);
+  
+
+  
+  setShowPassword(singUpPassword);
+  setShowConformPassword(singUpConfotmPassword) 
+  setInputType((prev) => (prev === "password" ? "text" : "password"));
+
+
+
+
+}
+
+
+
+
 let signupHandler  = async  ()=>{
 
-console.log(singUpEmail);
-console.log(singUpPassword);
+  setShowPassword(singUpPassword);
 
 
 
- await createUserWithEmailAndPassword(auth, singUpEmail, singUpPassword)
+
+
+
+if (singUpPassword === singUpConfotmPassword) {
+ 
+  
+  
+  
+  
+  
+  
+  await createUserWithEmailAndPassword(auth, singUpEmail, singUpPassword)
   .then(() => {
     console.log("user signup");
     navigate("/Contact");
-
+    
   })
   .catch((error) => {
   console.log(error.message);
   
   });
+  
 
-
+  
+} else {
+  console.error("❌ Passwords do not match");
+  alert("❌ Passwords do not match")
+}
 
 
 
@@ -58,14 +96,22 @@ return (
       <div className={styles.form}>
         <InputFeildCmp
           title="Email"
-          placeholder="Enter Your Email"
+          placeholder={"Enter Your Enter Email"}
           onChange={(e) => setSingUpEmail(e.target.value)}
         />
         <InputFeildCmp
-          title="Password"
-          placeholder="Enter Your Password"
+          title={inputType}
+          placeholder={showPassword || "Enter Your Password"}
           onChange={(e) => setsingUpPassword(e.target.value)}
         />
+
+        <InputFeildCmp  placeholder="conform Password" 
+          title={inputType}
+          onChange={(e) => setSingUpConfotmPassword(e.target.value)}
+        
+        />
+ <ButtonCmp   onClick={checkPasswssword}   text='Cheack Password' />
+
         <ButtonCmp text="Signup" onClick={signupHandler} />
       </div>
 

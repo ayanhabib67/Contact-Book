@@ -117,12 +117,12 @@ return (
           onChange={(e) => setContactName(e.target.value)}
         />
 
-        <InputFeildCmp
+        <InputFeildCmp  title='number'
           placeholder="Enter Your Contact Number"
           onChange={(e) => setContactNumber(e.target.value)}
         />
 
-        <InputFeildCmp
+        <InputFeildCmp  title='email'
           placeholder="Enter Your Contact Email"
           onChange={(e) => setContactEmail(e.target.value)}
         />
