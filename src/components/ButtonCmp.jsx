@@ -1,9 +1,9 @@
 import React from 'react'
 
-let ButtonCmp = ({text ="Button" ,onClick }) => {
+let ButtonCmp = ({text ="Button" ,onClick  ,style}) => {
   return (
     <>
-      <button   onClick={onClick}>{text}</button>
+      <button style={style}   onClick={onClick}>{text}</button>
     </>
   )
 }

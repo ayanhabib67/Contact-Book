@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../fireBase';
 import styles from "./index.module.css";
+import Swal from 'sweetalert2';
 
 
 let  LoginPage = () => {
@@ -24,17 +25,31 @@ let loginHandler = async ()=>{
 
 
    await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-  .then((userCredential) => {
-   
-    const user = userCredential.user;
-    console.log(user);
-    navigate("/Contact");
-    
-  })
-  .catch((error) => {
-  console.log(error.message);
-  
-  });
+   .then((userCredential) => {
+     const user = userCredential.user.uid;
+     localStorage.setItem("uid", user);
+     console.log("Login Successful:", user);
+ 
+     Swal.fire({
+       icon: "success",
+       title: "Login Successful 🎉",
+       text: "Welcome back! You are now logged in.",
+       confirmButtonColor: "#1d4ed8",
+     }).then(() => {
+       navigate("/Contact"); 
+     });
+   })
+   .catch((error) => {
+     console.error("❌ Login Error:", error.message);
+ 
+     Swal.fire({
+       icon: "error",
+       title: "Login Failed 😢",
+       text: error.message, 
+       confirmButtonColor: "#d33",
+     });
+   });
+ 
 
 
    
@@ -43,29 +58,58 @@ let loginHandler = async ()=>{
 
 
 
-  
 return (
   <div className={styles.container}>
     <div className={styles.card}>
-      <h2 className={styles.title}>Login</h2>
+    <h2 className={styles.title}>
+  Login <br /> Contact Book
+</h2>
+
+
       <p className={styles.subtitle}>Enter your credentials to continue</p>
 
       <div className={styles.form}>
-        <InputFeildCmp
-          title="Email"
-          placeholder="Enter Your Email"
-          onChange={(e) => setLoginEmail(e.target.value)}
-        />
-        <InputFeildCmp
-          title="Password"
-          placeholder="Enter Your Password"
-          onChange={(e) => setloginPassword(e.target.value)}
-        />
-        <ButtonCmp text="Login" onClick={loginHandler} />
+      <InputFeildCmp
+  title="Email"
+  placeholder="Enter your email"
+  onChange={(e) => setLoginEmail(e.target.value)}
+  style={{
+    padding: "12px",
+    borderRadius: "8px",
+    border: "1px solid #d1d5db", 
+    width: "100%",
+    fontSize: "14px",
+    outline: "none",
+    transition: "border-color 0.2s ease",
+  }}
+  onFocus={(e) => (e.target.style.border = "1px solid #2563eb")}
+  onBlur={(e) => (e.target.style.border = "1px solid #d1d5db")}
+/>
+
+<InputFeildCmp
+  title="Password"
+  placeholder="Enter your password"
+  onChange={(e) => setloginPassword(e.target.value)}
+  style={{
+    padding: "12px",
+    borderRadius: "8px",
+    border: "1px solid #d1d5db",
+    width: "100%",
+    fontSize: "14px",
+    outline: "none",
+    transition: "border-color 0.2s ease",
+  }}
+  onFocus={(e) => (e.target.style.border = "1px solid #2563eb")}
+  onBlur={(e) => (e.target.style.border = "1px solid #d1d5db")}
+/>
+
+        <button className={styles.button} onClick={loginHandler}>
+          Login
+        </button>
       </div>
 
       <p className={styles.signup}>
-        Create Account?{" "}
+        Don’t have an account?{" "}
         <Link to="/signup" className={styles.link}>
           Signup
         </Link>
@@ -73,6 +117,7 @@ return (
     </div>
   </div>
 );
+
 }
 
 export default LoginPage  

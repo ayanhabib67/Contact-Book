@@ -5,6 +5,8 @@ import SignupPage from './pages/singup';
 import NotFound from './pages/NotFound';
 import ContactPage from './pages/contact';
 import AddContact from './pages/addContact';
+import PrivateRoute from './Routes/PrivateRoute';
+import AuthRoute from './Routes/AuthRoute';
 
 
 
@@ -19,13 +21,23 @@ let  App = ()=> {
 
 <Routes >
 
+
+<Route  element={<AuthRoute />}>
+  
   <Route  index element={<LoginPage />}  />
   <Route  path="/Signup" element={<SignupPage  />}  />
-  <Route  path="/Contact" element={<ContactPage />}  />
-  <Route  path='/add-contact'  element={<AddContact /> }/>
+
+</Route>
+  
   <Route  path="*" element={<NotFound />}  />
 
 
+  <Route element={<PrivateRoute />} >
+
+  <Route  path="/Contact" element={<ContactPage />}  />
+  <Route  path='/add-contact'  element={<AddContact /> }/>
+
+  </Route>
 
 
 </Routes>
